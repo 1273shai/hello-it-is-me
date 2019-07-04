@@ -1,7 +1,8 @@
 #include <Morse.h>
 
-String str="";   
-void transform(int n) //转化函数，根据读取的ASCII码转化为Morse电码表示
+String str=""; 
+String st="";  
+void change(int n) //转化函数，根据读取的ASCII码转化为Morse电码表示
 {
   switch(n)//26个字母加上空格回车的Morse电码
   {
@@ -45,17 +46,22 @@ void setup() {
 void loop() {
   while(Serial.available()>0)
   {
-    transform(Serial.read());   //转化ASCII码为Morse电码
-    int i=0;
-    for(i=0;i<4;i++)
+    change(Serial.read());  
+    st+=str;
+    st+=' ';
+    str="";
+  }
+  
+    int i=0,k=0;
+    k=st.length();
+    for(i=0;i<k;i++)
     {
-      if(str[i]=='*')
+      if(st[i]=='*')
       morse.dot();       //.
-      if(str[i]=='-')
+      if(st[i]=='-')
       morse.dash();      //-
       delay(100);         //Morse电码之间的间隔
     }
     delay(400);          //字符与字符之间间隔
     str="";              
   }
-}
